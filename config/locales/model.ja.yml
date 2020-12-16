@@ -1,0 +1,36 @@
+ja:
+  activerecord:
+    models:
+      book: book
+      review: review
+      comment: comment
+      favorite: favorite
+      user: user
+    attributes:
+      book:
+        title: title
+        author: author
+        genre: genre
+        price: price
+        released_at: released_at
+        story: story
+        icon: icon
+      review:
+        speciality: speciality
+        knowledge: knowledge
+        story: story
+        like: like
+        summary: summary
+        body: body
+      comment:
+        body: body
+      favorite:
+      user:
+        name: Name
+        email: Email
+        introduce: introduce
+        icon: icon
+        password: Password
+        password_confirmation: Password confirmation
+        remember_me: Remember login
+        admin: admin

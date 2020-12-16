@@ -1,0 +1,14 @@
+<h3>comment list</h3>
+
+<table class="table">
+<% @comments.each do |comment| %>
+  <tr>
+    <td><%= comment.body %></td>
+    <td><%= link_to "#{comment.user.name}", admin_user_path(comment.user_id) %></td>
+    <td><%= link_to comment.book.title, admin_book_path(comment.book_id) %></td>
+    <td><%= link_to "edit", edit_admin_comment_path(comment.id), class: "btn btn-primary mr-3" %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'top screen', admin_root_path, class: "btn btn-primary mr-3" %>

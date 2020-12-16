@@ -1,0 +1,53 @@
+<%= form_with(model: @review, local: true) do |form| %>
+  <% if @review.errors.any? %>
+    <div id="error_explanation">
+      <h3><%= @review.errors.count %>件のエラーがあります。</h3>
+      <ul>
+        <% @review.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="filed">
+    <%= form.label :book_id, "book title" %> :
+    <%= form.collection_select :book_id, Book.all, :id, :title, {selected: @review.book_id }%>
+  </div>
+
+  <%= link_to "If you don't have the book you want to review", new_book_path %>
+
+  <div class="field">
+    <%= form.label :speciality %> :
+    <%= form.number_field :speciality, min: 0, max: 25 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :knowledge %> :
+    <%= form.number_field :knowledge, min: 0, max: 25 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :story %> :
+    <%= form.number_field :story, min: 0, max: 25 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :like %> :
+    <%= form.number_field :like, min: 0, max: 25 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :summary %> :
+    <%= form.text_field :summary %>
+  </div>
+
+  <div class="field">
+    <div><%= form.label :body %></div>
+    <div><%= form.text_area :body %></div>
+  </div>
+
+  <div class="action field">
+    <%= form.submit class: "btn btn-primary mr-3" %>
+  </div>
+<% end %>

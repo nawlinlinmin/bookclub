@@ -1,0 +1,18 @@
+<h3>review list</h3>
+
+<table class="table">
+  <% @reviews.each do |review| %>
+    <tr>
+      <td><%= review.summary %></td>
+      <td><%= link_to review.user.name, admin_user_path(review.user_id) %> reviewed</td>
+      <td><%= link_to review.book.title, admin_book_path(review.book_id) %></td>
+      <td><%= review.speciality + review.knowledge + review.story + review.like %> points</td>
+      <td><%= link_to "detail", admin_review_path(review.id), class: "btn btn-primary mr-3" %></td>
+      <td><%= link_to "edit", edit_admin_review_path(review.id), class: "btn btn-primary mr-3" %></td>
+      <td><%= link_to 'delete', admin_review_path(review.id), method: :delete ,data: { confirm: 'Are you sure?' }, class: "btn btn-danger mr-3" %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= link_to 'top screen', admin_root_path, class: "btn btn-primary mr-3"  %>
+<%= link_to 'post new review', new_admin_review_path, class: "btn btn-primary mr-3" %>

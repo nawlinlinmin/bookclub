@@ -1,0 +1,61 @@
+<h3>Detail of <%= @user.name %></h3>
+
+<p><strong>ID : </strong><%= @user.id %></p>
+<p><strong>name: </strong><%= @user.name %></p>
+<p><strong>follow : </strong><%= @user.following.count %> people / <strong>follower : </strong><%= @user.followers.count %> people </p>
+<p><strong>email : </strong><%= @user.email %></p>
+<p class="user_introduce"><strong>self introduction</strong><br><%= @user.introduce %></p>
+<p><strong>icon</strong><br><%= image_tag(@user.icon.resize_for_user_icon.url) if @user.icon && @user.icon.url %></p>
+
+<% if @user != current_user %><%= render 'follow_form', user: @user %><% end %>
+<%= link_to 'edit profile', edit_admin_user_path(@user.id), class: "btn btn-primary mr-3" %>
+<%= link_to 'cancel', admin_user_path(@user.id), method: :delete, class: "btn btn-danger mr-3" ,data: { confirm: 'Are you sure?' } %>
+<%= link_to 'user list', admin_users_path, class: "btn btn-primary mr-3" %>
+
+<% if @user.reviews.present? %>
+  <p>List of book reviews posted by <%= @user.name %></p>
+  <table class="table">
+
+    <% @user.reviews.each do |review| %>
+      <tr class="review_row">
+        <td><%= review.summary %></td>
+        <td><%= link_to review.book.title, admin_book_path(review.book_id) %></td>
+        <td><%= review.speciality + review.knowledge + review.story + review.like %> points</td>
+        <td><%= link_to "detail", admin_review_path(review.id), class: "btn btn-primary mr-3" %></td>
+        <td><%= link_to "edit", edit_admin_review_path(review.id), class: "btn btn-primary mr-3" %></td>
+        <td><%= link_to 'delete', admin_review_path(review.id), method: :delete, data: { confirm: 'Are you sure？' }, class: "btn btn-danger mr-3" %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+
+<% if @user.favorites.present? %>
+  <p>List of book titles which are <%= @user.name %>'s favorite</p>
+  <table class="table">
+
+    <% @user.favorites.each do |favorite| %>
+      <tr class="favorite_row">
+        <td><%= image_tag(favorite.book.icon.resize_for_book_icon.url) if favorite.book.icon && favorite.book.icon.url %></td>
+        <td><%= link_to favorite.book.title, admin_book_path(favorite.book_id) %> by</td>
+        <td><%= favorite.book.author %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+
+
+<% if @user.following.present? %>
+  <p>follow <%= @user.following.count %> people</p>
+    <% @user.following.each do |follow| %>
+      <%= image_tag(follow.icon.resize_for_book_icon.url) if follow.icon && follow.icon.url %>
+      <%= link_to follow.name, admin_user_path(follow.id) %>
+    <% end %>
+<% end %>
+
+<% if @user.followers.present? %>
+  <p>follower <%= @user.followers.count %> people</p>
+    <% @user.followers.each do |follower| %>
+      <%= image_tag(follower.icon.resize_for_book_icon.url) if follower.icon && follower.icon.url %>
+      <%= link_to follower.name, admin_user_path(follower.id) %>
+    <% end %>
+<% end %>

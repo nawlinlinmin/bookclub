@@ -1,0 +1,11 @@
+<h3><%= @review.summary %></h3>
+
+<p><strong>speciality: </strong><%= @review.speciality %>points/25points</p>
+<p><strong>knowledge: </strong><%= @review.knowledge %>points/25points</p>
+<p><strong>story: </strong><%= @review.story %>points/25points</p>
+<p><strong>attraction: </strong><%= @review.like %>points/25points</p>
+<p><strong>total score: </strong><%= @review.speciality + @review.knowledge + @review.story + @review.like %>points/100points</p>
+<p><strong>comment: </strong><%= @review.body %></p>
+
+<%= link_to 'edit', edit_review_path(@review.id), class: "btn btn-primary mr-3" if current_user == @review.user %>
+<%= link_to 'delete', review_path(@review.id), method: :delete, data: { confirm: 'Are you sure？' }, class: "btn btn-danger mr-3" if current_user == @review.user %>

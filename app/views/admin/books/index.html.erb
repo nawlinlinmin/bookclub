@@ -1,0 +1,68 @@
+<%= search_form_for @q do |form| %>
+  <div class="form-inline">
+    <div class="form-group">
+      <%= form.label :title_or_author, "title or author" %> :
+      <%= form.search_field :title_or_author_cont, include_blank: true, class: "search_title_or_author_form form-control" %>,
+    </div>
+
+    <div class="form-group">
+      <%= form.label :price, class: 'form-group' %> :
+      <%= form.number_field :price_gteq, min: 0, include_blank: true, class: 'form-control' %>more than〜
+      <%= form.number_field :price_lt, min: 0, max: 100000, include_blank: true, class: 'form-control' %>less than
+    </div>
+
+    <br>
+
+    <div class="form-group">
+      <%= form.label :genre, class: 'form-group' %> :
+      <%= form.select :genre_eq, Book.genres.map {|k, v| [Book.genres_i18n[k], v]}, include_blank: true, class: 'form-control' %>,
+    </div>
+
+    <div class="form-group">
+      <%= form.label :released_at, class: 'form-group' %> :
+      <%= form.date_field :released_at_gteq, include_blank: true, class: 'form-control' %>〜
+      <%= form.date_field :released_at_lteq, include_blank: true, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= form.submit "search", class: 'btn btn-default' %>
+      <%= link_to 'clear', admin_books_path, class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>
+
+<table class="table">
+  <tr>
+    <th class="display_center"><%= sort_link(@q, :title, "title", default_order: :asc) %></th>
+    <th class="display_center"><%= sort_link(@q, :author, "author", default_order: :asc) %></th>
+    <th class="display_center"><%= sort_link(@q, :released_at, "release date", default_order: :desc) %></th>
+
+    <th class="display_center"><%= link_to admin_books_path(order_by_speciality: true) do %>speciality<% end %></th>
+    <th class="display_center"><%= link_to admin_books_path(order_by_knowledge: true) do %>knowledge<% end %></th>
+    <th class="display_center"><%= link_to admin_books_path(order_by_story: true) do %>story<% end %></th>
+    <th class="display_center"><%= link_to "attraction", admin_books_path(order_by_like: true) %></th>
+    <th class="display_center"><%= link_to "total score", admin_books_path(order_by_sum: true) %></th>
+    <th class="display_center"><%= link_to "number of reviews", admin_books_path(order_by_reviews: true) %></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <% @books.each do |book| %>
+    <tr>
+      <td colspan="2"><%= image_tag(book.icon.resize_for_book_icon.url) if book.icon && book.icon.url %><br><strong><%= book.title %></strong><br>from <%= book.author %></td>
+      <td class="display_center"><%= book.released_at %></td>
+      <td class="display_center"><%= book.reviews.sum(:speciality) * 4 / book.reviews.count if book.reviews.present? %><% if book.reviews.present? %>points<% end %></td>
+      <td class="display_center"><%= book.reviews.sum(:knowledge) * 4 / book.reviews.count if book.reviews.present? %><% if book.reviews.present? %>points<% end %></td>
+      <td class="display_center"><%= book.reviews.sum(:story) * 4 / book.reviews.count if book.reviews.present? %><% if book.reviews.present? %>points<% end %></td>
+      <td class="display_center"><%= book.reviews.sum(:like) * 4 / book.reviews.count if book.reviews.present? %><% if book.reviews.present? %>points<% end %></td>
+      <td class="display_center"><%= (book.reviews.sum(:speciality) + book.reviews.sum(:knowledge) + book.reviews.sum(:story) + book.reviews.sum(:like)) / book.reviews.count if book.reviews.present? %><% if book.reviews.present? %>points<% end %></td>
+      <td class="display_center"><%= book.reviews.count %>cases</td>
+      <td class="display_center"><%= link_to "detail", admin_book_path(book.id), class: "btn btn-primary mr-3" %></td>
+      <td class="display_center"><%= link_to "edit", edit_admin_book_path(book.id), class: "btn btn-primary mr-3" %></td>
+      <td class="display_center"><%= link_to "delete", admin_book_path(book.id), method: :delete ,data: { confirm: 'Are you sure?' }, class: "btn btn-danger mr-3" %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= paginate @books %>

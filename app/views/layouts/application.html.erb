@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BookClub</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <div class="container">
+      <header class="header clearfix">
+        <% if user_signed_in? && current_user&.admin? %>
+
+          <nav>
+            <ul class="top_menu clearfix">
+              <li>
+
+                <div class="dropdown">
+                  <!-- 切替ボタンの設定 -->
+                  <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">admin tools</a>
+                  <!-- ドロップメニューの設定 -->
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <%= link_to "new book registration", new_admin_book_path, class: "dropdown-item" %>
+                    <%= link_to "post new review", new_admin_review_path, class: "dropdown-item" %>
+                    <%= link_to "review list", admin_reviews_path, class: "dropdown-item" %>
+                    <%= link_to "user list", admin_users_path, class: "dropdown-item" %>
+                    <%= link_to "comment list", admin_comments_path, class: "dropdown-item" %>
+                    <%= link_to "favorite list", admin_favorites_path, class: "dropdown-item" %>
+                    <%= link_to "follow list", admin_relationships_path, class:"dropdown-item" %>
+                  </div><!-- /.dropdown-menu -->
+                </div><!-- /.dropdown -->
+              </li>
+              <li><%= link_to "profile", admin_user_path(current_user.id) %></li>
+              <li><%= link_to "top", admin_root_path %></li>
+              <li><%= link_to "log out", destroy_user_session_path, method: :delete, data: { confirm: 'ログアウトしますか？' }  %></li>
+            </ul>
+
+          </nav>
+        <% elsif user_signed_in? %>
+          <nav>
+            <ul class="top_menu clearfix">
+              <li><%= link_to "post review", new_review_path %></li>
+              <li><%= link_to "profile", user_path(current_user.id) %></li>
+              <li><%= link_to "top", root_path %></li>
+              <li><%= link_to "log out", destroy_user_session_path, method: :delete, data: { confirm: 'ログアウトしますか？?' }  %></li>
+            </ul>
+          </nav>
+        <% else %>
+          <nav>
+            <ul class="top_menu clearfix">
+              <li><%= link_to "sign up", new_user_registration_path, class: 'post' %></li>
+              <li><%= link_to "log in", new_user_session_path, class: 'post' %></li>
+            </ul>
+          </nav>
+        <% end %>
+      </header>
+
+      <div class="wrapper clearfix">
+        <!-- <% unless controller_name == "books" && action_name == "show" %> -->
+          <div class="section">
+            <% if notice %>
+              <p class="alert alert-notice"><%= notice %></p>
+            <% end %>
+            <% if alert %>
+              <p class="alert alert-error"><%= alert %></p>
+            <% end %>
+          </div>
+        <!-- <% end %>  -->
+
+        <article class="content">
+          <%= yield %>
+        </article>
+      </div>
+
+      <footer class="footer">
+        <p>Copyright © 2020 Book Club All Rights Reserved.</p>
+      </footer>
+    </div>
+  </body>
+</html>

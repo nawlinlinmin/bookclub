@@ -1,0 +1,56 @@
+<%= form_with(model: [:admin, @book], local: true) do |form| %>
+  <% if @book.errors.any? %>
+    <div id="error_explanation">
+      <h3><%= @book.errors.count %>件のエラーがあります。</h3>
+      <ul>
+        <% @book.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :title %> :
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :author %> :
+    <%= form.text_field :author %>
+  </div>
+
+  <div class="field">
+    <%= form.label :genre %> :
+    <%= form.select :genre, Book.genres.keys.map {|k| [I18n.t("enums.book.genre.#{k}"), k]} %>
+  </div>
+
+  <div class="field">
+    <%= form.label :price %> :
+    <%= form.number_field :price, min: 0, max: 100000 %>kyats
+  </div>
+
+  <div class="field">
+    <%= form.label :released_at %> :
+    <%= form.date_select :released_at %>
+  </div>
+
+  <div class="field">
+    <div><%= form.label :story %></div>
+    <div><%= form.text_area :story %></div>
+  </div>
+
+  <div class="field">
+    <%= form.label :icon %>
+    <%= form.file_field :icon, class: "icon_file" %>
+    <%= image_tag(@book.icon.resize_for_book_icon.url) if @book.icon && @book.icon.url %>
+    <%= form.hidden_field :icon_cache %>
+  </div>
+
+  <div class="action field">
+    <%= form.submit class: "btn btn-primary mr-3" %>
+  </div>
+
+<% end %>
+
+<%= link_to "book list", admin_books_path, class: "btn btn-primary mr-3" %>

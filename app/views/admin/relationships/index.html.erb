@@ -1,0 +1,12 @@
+<h3>follow list</h3>
+
+<table class="table">
+  <% @relationships.each do |relationship| %>
+    <tr>
+      <td><%= link_to "#{relationship.follower.name}", admin_user_path(relationship.follower_id) %> followed</td>
+      <td><%= link_to "#{relationship.followed.name}", admin_user_path(relationship.followed_id) %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= link_to 'top screen', admin_root_path, class: "btn btn-primary mr-3"  %>

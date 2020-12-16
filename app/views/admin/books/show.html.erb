@@ -1,0 +1,44 @@
+<h3>Detail of <%= @book.title%></h3>
+
+<p><strong>ID : </strong><%= @book.id %></p>
+<p><strong>title : </strong><%= @book.title %></p>
+<p><strong>author : </strong><%= @book.author %></p>
+<p><strong>genre : </strong><%= @book.genre_i18n %></p>
+<p><strong>price : </strong><%= @book.price %>kyats</p>
+<p><strong>release date : </strong><%= @book.released_at %></p>
+<p class="book_story"><strong>synopsis<br></strong><%= @book.story %></p>
+<p><strong>cover</strong><br><%= image_tag(@book.icon.resize_for_book_icon.url) if @book.icon && @book.icon.url %></p>
+
+<%= link_to 'book list', admin_books_path, class: "btn btn-primary mr-3" %>
+<%= link_to 'edit', edit_admin_book_path(@book.id), class: "btn btn-primary mr-3" %>
+<%= link_to 'delete', admin_book_path(@book.id), method: :delete ,data: { confirm: 'Are you sure？' }, class: "btn btn-danger mr-3" %>
+
+<% if @favorite.present? %>
+  <%= link_to 'cancel favorite', admin_favorite_path(id: @favorite.id), method: :delete, class: 'btn btn-danger' %>
+<% else %>
+  <%= link_to 'favorite', admin_favorites_path(book_id: @book.id), method: :post, class: 'btn btn-primary' %>
+<% end %>
+
+
+<h4><%= @book.reviews.count %> case of review is added to <%= @book.title%></h4>
+<table class="table">
+
+<% @book.reviews.each do |review| %>
+  <tr>
+    <td><%= link_to review.user.name, admin_user_path(review.user_id) %></td>
+    <td><%= review.summary %></td>
+    <td><%= review.speciality + review.knowledge + review.story + review.like %>points</td>
+    <td><%= link_to "detail", admin_review_path(review.id), class: 'btn btn-primary' %></td>
+    <td><%= link_to "edit", edit_admin_review_path(review.id), class: 'btn btn-primary' %></td>
+    <td><%= link_to "delete", admin_review_path(review.id), method: :delete, class: 'btn btn-danger',data: { confirm: 'Are you sure？' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<h4>comment and question for <%= @book.title %></h4>
+<div id="comments_area">
+  <%= render partial: 'admin/comments/index', locals: { comments: @comments, book: @book, user: current_user } %>
+</div>
+<%= render partial: 'admin/comments/form', locals: { comment: @comment, book: @book, user: current_user } %>
+
+<%= link_to 'top screen', admin_books_path, class: "btn btn-primary mr-3" %>

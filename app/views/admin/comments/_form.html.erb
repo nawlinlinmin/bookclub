@@ -1,0 +1,27 @@
+<%= form_with(model: [:admin, book, comment]) do |form| %>
+  <% if comment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
+      <ul>
+      <% comment.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<!--
+  <% if notice %>
+    <p class="alert alert-notice"><%= notice %></p>
+  <% end %>
+-->
+
+  <div class="field">
+    <%= form.label :body, "comment" %>
+    <%= form.text_area :body, class: "comment_area", id: "comment_area" %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "post comment", class: "btn btn-primary mr-3" %>
+  </div>
+<% end %>

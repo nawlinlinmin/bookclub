@@ -1,0 +1,12 @@
+<h3>favorite list</h3>
+
+<table class="table">
+  <% @favorites.each do |favorite| %>
+    <tr>
+      <td><%= link_to "#{favorite.user.name}", admin_user_path(favorite.user_id) %> like</td>
+      <td><%= link_to favorite.book.title, admin_book_path(favorite.book_id) %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= link_to 'top screen', admin_root_path, class: "btn btn-primary mr-3"  %>
