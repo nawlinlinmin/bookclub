@@ -30,7 +30,6 @@ Rails.application.routes.draw do
     resources :messages
   end
 
-  # 管理者用ページのルーティング
   namespace :admin do
     root 'books#index'
     resources :books do
