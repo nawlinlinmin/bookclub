@@ -39,3 +39,4 @@ https://cacoo.com/diagrams/6aKbpON7jLXbFIGe/BDA58
   * carrierwave
   * mini_magick
   * devise
+  
