@@ -182,7 +182,7 @@ seed_users.each do |seed_user|
     name: "#{seed_user}",
     email: "user#{n}@example.com",
     password: "password_for_user#{n}",
-    introduce: "#{seed_user}の自己紹介です。",
+    introduce: "Hello! I am #{seed_user}.",
     admin: false,
   )
   user.save
@@ -206,14 +206,14 @@ admin_user.save
       knowledge: rand(0..25),
       story: rand(0..25),
       like: rand(0..25),
-      summary: "レビューの見出し",
-      body: "レビュー本文レビュー本文レビュー本文レビュー本文",
+      summary: "Review summary",
+      body: "I am sure. You will like it.",
       book_id: rand(1..30),
       user_id: u,
     )
 
     Comment.create(
-      body: "コメント本文コメント本文",
+      body: "Give it a try",
       book_id: rand(1..30),
       user_id: u,
     )
@@ -237,35 +237,6 @@ end
   end
 end
 
-5.times do |b|
-  b = b + 1
-  Review.create(
-    speciality: 0,
-    knowledge: 0,
-    story: 0,
-    like: 0,
-    summary: "レビューの見出し",
-    body: "レビュー本文レビュー本文レビュー本文レビュー本文",
-    book_id: b,
-    user_id: 16,
-  )
-
-  Comment.create(
-    body: "コメント本文コメント本文",
-    book_id: b+10,
-    user_id: 16,
-  )
-
-  Favorite.create(
-    book_id: b+10,
-    user_id: 16,
-  )
-
-  Relationship.create(
-    follower_id: 16,
-    followed_id: b,
-  )
-end
 
 5.times do |b|
   b = b + 1
@@ -274,14 +245,14 @@ end
     knowledge: 25,
     story: 25,
     like: 25,
-    summary: "レビューの見出し",
-    body: "レビュー本文レビュー本文レビュー本文レビュー本文",
+    summary: "Review summary",
+    body: "I am sure. You will like it.",
     book_id: b+10,
     user_id: 17
   )
 
   Comment.create(
-    body: "コメント本文コメント本文",
+    body: "Give it a try",
     book_id: b,
     user_id: 17,
   )
