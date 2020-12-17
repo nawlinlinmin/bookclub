@@ -1,4 +1,4 @@
-<h3>edit comment</h3>
+<h3>Edit comment</h3>
 
 <%= form_with(model: @comment, local: true) do |form| %>
   <% if @comment.errors.any? %>
@@ -12,7 +12,7 @@
     </div>
   <% end %>
 
-  <p><%= @comment.user.name %>さんの<%= @comment.book.title %>に対するコメント</p>
+  <p><%= @comment.user.name %> give comment to <%= @comment.book.title %></p>
   <%= form.hidden_field :book_id %>
   <%= form.hidden_field :user_id %>
 
