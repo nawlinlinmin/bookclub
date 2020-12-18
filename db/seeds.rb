@@ -184,6 +184,7 @@ seed_users.each do |seed_user|
     password: "password_for_user#{n}",
     introduce: "Hello! I am #{seed_user}.",
     admin: false,
+    icon: open("#{Rails.root}/db/seed_fixtures/#{seed_user}.jpg"),
   )
   user.save
 end
@@ -195,6 +196,7 @@ admin_user = User.new(
   password: "password_for_admin",
   introduce: "Thank you for watching my app!",
   admin: true,
+  icon: open("#{Rails.root}/db/seed_fixtures/admin.jpg"),
 )
 admin_user.save
 
